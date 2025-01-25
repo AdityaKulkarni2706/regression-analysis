@@ -7,7 +7,7 @@ class GenerateData:
 
     """
 
-        This class is a data generator class. Main purpose is to generate data for the linear regression model.
+        This class is a data generator class. The main purpose is to generate data for the linear regression model.
 
         Input: 
             num_points: Number of data points to generate
@@ -67,7 +67,7 @@ class GenerateData:
         X = np.linspace(-self.x_bound, self.x_bound, self.num_points)
         noise = np.random.normal(0, self.noise_std, self.num_points)
         
-        # Standardization with safe division to prevent any divide by zero errors
+        # Standardization with safe division to avoid any divide by zero errors, since 1e-8 is a reaaally small number and wont impact anything.
 
 
         X_std = (X - np.mean(X)) / (np.std(X) + 1e-8)
@@ -302,7 +302,9 @@ class Plot:
             X, Y = self.data_generator.generateStandardData()
             
             # Use the existing analyzer instance
-            _, _, _, gradients = self.gradient_analyzer.fit(X, Y)   #This essentially calls the INSTANCE of the GradientDescentAnalyzer class, and fits the model to the data.
+            #Only the 4th parameter of the return of the fit function aka gradients is gonna be useful as of now, so the other 3 parameters will be assigned to variables with random identifiers.
+            
+            a,b,c, gradients = self.gradient_analyzer.fit(X, Y)   #This essentially calls the INSTANCE of the GradientDescentAnalyzer class, and fits the model to the data.
 
             # The underscores are used to ignore the values of w, b, and w_history, as they are not used in this case.
 
@@ -317,7 +319,7 @@ class Plot:
 
 # Example usage
 
-# Create instances
+# Create objects
 data_generator = GenerateData(num_points=100, w_true=-39, b_true=30, noise_std=109)
 gradient_analyzer = GradientDescentAnalyzer(learning_rate=0.1)
 plot = Plot(data_generator, gradient_analyzer)
